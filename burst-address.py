@@ -50,12 +50,12 @@ class ReedSolomon:
     def encode(self, plain):
         plain_string = str(plain);
         length = len(plain_string);
-        plain_string_10 = [None]*20;
+        plain_string_10 = [0]*20;
         for i in range(length):
             plain_string_10[i] = ord(plain_string[i]) - ord('0');
 
         codeword_length = 0;
-        codeword = [None]*len(self.initial_codeword);
+        codeword = [0]*len(self.initial_codeword);
 
         while True: # emulating do ... while from java
             new_length = 0;
@@ -141,8 +141,10 @@ while i>=0:
     address += bytesum;
     i-=1;
 
-# print long id
-print("Long id = \"%s\""%(address));
+# print long id and account number id
+print("Long id = \"%s\""%(address if address <= 2**63-1 else address - 2**64));
+
+print("Number id = \"%s\""%(address));
 
 ###### get reed-solomon for account
 
