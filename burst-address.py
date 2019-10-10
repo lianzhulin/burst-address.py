@@ -26,6 +26,8 @@ from hashlib import sha256;
 # Private to set private key
 from curve25519 import Private;
 
+from binascii import hexlify;
+
 ###### support python 2 and 3
 
 # over ride long with int
@@ -125,9 +127,14 @@ private = sha256(passphrase.encode('utf-8')).digest();
 # public key from curve25519
 curve = Private(secret=private);
 public = curve.get_public();
+print("Private key", hexlify(curve.serialize()))
+print("Public key", hexlify(public.serialize()))
 
 # hash public key
 hashdress = sha256(public.serialize()).digest();
+
+# hash slice 0..7, endswith 13
+hashdress = b'\x0D' + hashdress[0:]
 
 # create long id from hash
 address = long(0);
